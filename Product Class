@@ -1,0 +1,32 @@
+class Product:
+
+    def __init__(self,productID,packName,productName,rarity,edition,condition,buyPrice,buyQuantity):
+      self.productId = productID
+      self.packName = packName
+      self.productName = productName
+      self.rarity = rarity
+      self.edition = edition
+      self.condition = condition
+      self.buyPrice = buyPrice
+      self.buyQuantity = buyQuantity
+
+    def getProductId(self):return self.productID
+    def setProductID(self,productID):self.productID = productID
+    
+    def getPackName(self):return self.packName
+    def setPackName(self,packName):self.packName = packName
+    
+    def getProductName(self):return self.productName
+    def setProductName(self,productName):self.productName = productName
+    
+    def getEdition(self):return self.edition
+    def setEdition(self,edition):self.edition = edition
+    
+    def getCondition(self):return self.condition
+    def setCondition(self,condition):self.condition = condition
+    
+    def getBuyPrice(self):return self.buyPrice
+    def setBuyPrice(self,buyPrice):self.buyPrice = buyPrice
+    
+    def getBuyQuantity(self):return self.buyQuantity
+    def setBuyQuantity(self,buyQuantity):self.buyQuantity = buyQuantity
