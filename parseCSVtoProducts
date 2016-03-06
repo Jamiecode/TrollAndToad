@@ -35,9 +35,10 @@ class Product:
     
     def getBuyQuantity(self):return self.buyQuantity
     def setBuyQuantity(self,buyQuantity):self.buyQuantity = buyQuantity
-	
-singlesList = []
+	def __str__(self):return(self.productName)
 
+
+singlesList = []
 with open('YugiohSinglesBuylist (2).csv',newline="") as f:
 	reader = csv.reader(f)
 	count = 0
@@ -49,4 +50,42 @@ with open('YugiohSinglesBuylist (2).csv',newline="") as f:
 			count = count + 1
 			if(count == 4):break
 			
+#TODO:finish writing the methods to clean
+def parseYGOList(rowFromReader):
+	productId = rowFromReader[0]
+	#packName goes here
+	cardName = parseProdName(rowFromReader[2])
+	#rarity goes here
+	#edition here
+	#condition
+	buyPrice = rowFromReader[4]
+	buyQuantity = rowFromReader[5]
+	
+#TODO:Work on the various cases, maybe have to check vs certain sets, remember bulk case, playmat case
+def parsePackName(string)
+	#work on cleaning up the packName
+	#potential cases to clean
+	#"1st Edition Singles"
+	
+	#"Unlimited Singles
+	#AB01 where there's two char followed by two int like RP01
+	#AB1 two char followed by 1 int like DR1
+	#ABC1 3 char followed by 1 int like GLD1
+	#(ABCD) string of 4 chars inside parens 
+	#(1234) 4ints to rep a year i.e. 2009
 
+	
+#TODO:Ultimate Rare Case and Blackwing - case
+def parseProdName(exampleString):
+	#bulk case
+	if(exampleString.find("Random") != -1 and exampleString.find("Yugioh") != -1):return exampleString
+	
+	#playmat case
+	if(exampleString.find("Playmat") != -1):return exampleString
+	
+	#general case
+	cardName = exampleString[0:exampleString.find(" -")]
+	return cardName
+	
+	
+	
