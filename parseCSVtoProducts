@@ -55,7 +55,7 @@ def parseYGOList(rowFromReader):
 	productId = rowFromReader[0]
 	#packName goes here
 	cardName = parseProdName(rowFromReader[2])
-	#rarity goes here
+	#rarity goes here !!If ultimate rare, check rowFromReader[2] for ultimate rare, i.e. "rare" card but "ultimate rare" version
 	#edition here
 	#condition
 	buyPrice = rowFromReader[4]
@@ -75,16 +75,29 @@ def parsePackName(string)
 	#(1234) 4ints to rep a year i.e. 2009
 
 	
-#TODO:Ultimate Rare Case and Blackwing - case
+#TODO:dash in cardname case
 def parseProdName(exampleString):
+	#ultimate rare case
+	if(exampleString.find("Ultimate Rare") == 0):
+		print("ULTIMATE RARE DETECTED")
+		print(exampleString)
+		return parseProdName(exampleString[16:])
+	
 	#bulk case
-	if(exampleString.find("Random") != -1 and exampleString.find("Yugioh") != -1):return exampleString
+	if(exampleString.find("Random") != -1 and exampleString.find("Yugioh") != -1):
+		print('BULK CASE DETECTED')
+		return exampleString
 	
 	#playmat case
-	if(exampleString.find("Playmat") != -1):return exampleString
+	if(exampleString.find("Playmat") != -1):
+		print('PLAYMAT CASE DETECTED')
+		return exampleString
+	
 	
 	#general case
 	cardName = exampleString[0:exampleString.find(" -")]
+	print('GENERAL CASE DETECTED')
+	print(exampleString)
 	return cardName
 	
 	
