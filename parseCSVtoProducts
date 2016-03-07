@@ -1,4 +1,5 @@
 import csv
+import re
 
 # Example line from the CSV
 # "4950521","Structure Deck: Master of Pendulum Singles","Dragonpit Magician - SDMP-EN002 - Common 1st Edition","Near Mint 1st Edition English Yugioh Card","0.75","12",""
@@ -75,29 +76,49 @@ def parsePackName(string)
 	#(1234) 4ints to rep a year i.e. 2009
 
 	
-#TODO:dash in cardname case
+#TODO:swap to Regex
+#TODO:figure out why my regex doesn't work
 def parseProdName(exampleString):
+
 	#ultimate rare case
+	m = re.match(r"^\WUltimate\sRare\s-\s(.+)\s-\s(.{3}-EN\d{3})",exampleString)
+	
+	#FIX THIS
+	#"Ultimate Rare - Broww, Huntsman of Dark World - EEN-EN021"
+	#>>> p = re.compile(r'^\W+Ultimate\sRare\s-\s(.+)\s-\s(.{3}-EN\d{3})')
+	#Compare the next two lines to figure out why the regex is broken.
+	#"Ultimate Rare - A Feather of the Phoenix - FET-EN037"
+	#>>> test_str = u"\"Ultimate Rare - A Feather of the Phoenix - FET-EN037\""
+	#>>> re.search(p,test_str)
+	#<_sre.SRE_Match object; span=(0, 53), match='"Ultimate Rare - A Feather of the Phoenix - FET-E>
+	
+	
 	if(exampleString.find("Ultimate Rare") == 0):
-		print("ULTIMATE RARE DETECTED")
-		print(exampleString)
 		return parseProdName(exampleString[16:])
+	
+	#dash case
+	#regex example
+	m = re.match(r"^(.+)\s-\s(.{3}-\d{3})(.+)",exampleString)
+	if (m == None):print("nothing to see here boys")
+	return m.group(1)[0:-3]
+	
 	
 	#bulk case
 	if(exampleString.find("Random") != -1 and exampleString.find("Yugioh") != -1):
-		print('BULK CASE DETECTED')
 		return exampleString
 	
 	#playmat case
 	if(exampleString.find("Playmat") != -1):
-		print('PLAYMAT CASE DETECTED')
 		return exampleString
 	
 	
+	#dash case
+	#regex example
+	m = re.match(r"^(.+\s-\s)(.{3}-\d{3})(.+)",exampleString)
+	return m.group(1)[0:-3]
+	
 	#general case
 	cardName = exampleString[0:exampleString.find(" -")]
-	print('GENERAL CASE DETECTED')
-	print(exampleString)
 	return cardName
 	
 	
