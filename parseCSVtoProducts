@@ -80,18 +80,14 @@ def parsePackName(string)
 #TODO:figure out why my regex doesn't work
 def parseProdName(exampleString):
 
-	#ultimate rare case
-	m = re.match(r"^\WUltimate\sRare\s-\s(.+)\s-\s(.{3}-EN\d{3})",exampleString)
-	
-	#FIX THIS
-	#"Ultimate Rare - Broww, Huntsman of Dark World - EEN-EN021"
-	#>>> p = re.compile(r'^\W+Ultimate\sRare\s-\s(.+)\s-\s(.{3}-EN\d{3})')
-	#Compare the next two lines to figure out why the regex is broken.
-	#"Ultimate Rare - A Feather of the Phoenix - FET-EN037"
-	#>>> test_str = u"\"Ultimate Rare - A Feather of the Phoenix - FET-EN037\""
-	#>>> re.search(p,test_str)
-	#<_sre.SRE_Match object; span=(0, 53), match='"Ultimate Rare - A Feather of the Phoenix - FET-E>
-	
+	#ultimate rare case#working god bless
+	>>> p = re.compile(b'^Ultimate\sRare\s-\s(.+)\s-\s(.{3}-EN\d{3})')
+	>>> test_str = "Ultimate Rare - Broww, Huntsman of Dark World - EEN-EN021"
+	>>> test_str = test_str.encode('UTF-8',errors='strict')
+	>>> result = re.search(p,test_str)
+	>>> print(result)
+	<_sre.SRE_Match object; span=(0, 57), match=b'Ultimate Rare - Broww, Huntsman of Dark World - >
+
 	
 	if(exampleString.find("Ultimate Rare") == 0):
 		return parseProdName(exampleString[16:])
