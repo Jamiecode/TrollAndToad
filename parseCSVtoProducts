@@ -78,44 +78,30 @@ def parsePackName(string)
 	
 #TODO:swap to Regex
 #TODO:figure out why my regex doesn't work
-def parseProdName(exampleString):
+def parseProdName(compareToThis):
 
-	#ultimate rare case#working god bless
-	>>> p = re.compile(b'^Ultimate\sRare\s-\s(.+)\s-\s(.{3}-EN\d{3})')
-	>>> test_str = "Ultimate Rare - Broww, Huntsman of Dark World - EEN-EN021"
-	>>> test_str = test_str.encode('UTF-8',errors='strict')
-	>>> result = re.search(p,test_str)
-	>>> print(result)
-	<_sre.SRE_Match object; span=(0, 57), match=b'Ultimate Rare - Broww, Huntsman of Dark World - >
-
-	
-	if(exampleString.find("Ultimate Rare") == 0):
-		return parseProdName(exampleString[16:])
-	
-	#dash case
-	#regex example
-	m = re.match(r"^(.+)\s-\s(.{3}-\d{3})(.+)",exampleString)
-	if (m == None):print("nothing to see here boys")
-	return m.group(1)[0:-3]
-	
-	
-	#bulk case
-	if(exampleString.find("Random") != -1 and exampleString.find("Yugioh") != -1):
-		return exampleString
-	
-	#playmat case
-	if(exampleString.find("Playmat") != -1):
-		return exampleString
-	
-	
-	#dash case
-	#regex example
-	m = re.match(r"^(.+\s-\s)(.{3}-\d{3})(.+)",exampleString)
-	return m.group(1)[0:-3]
-	
+	#I have to do the ultimate rare case first becasue it will otherwise get caught in the regular regex
+	pattern = re.compile(b'^Ultimate\sRare\s-\s(.+)\s-\s(.{3}-EN\d{3})')
+	comparision = compareToThis.encode('UTF-8', errors='strict')
+	if(re.search(pattern,comparison) != None)
 	#general case
+	#ABC-EN123
+	#ABCD-EN123
 	cardName = exampleString[0:exampleString.find(" -")]
 	return cardName
+
+	#ultimate Rare case
+	pattern = r'^Ultimate\sRare\s-\s(.+)\s-\s(.{3}-EN\d{3})'
+	if(re.match(pattern,compareToThis) != None):
+		return re.match(pattern,compareToThis).group(1)
 	
+	#bulk case
+	pattern = r'^Random\s.*Yugioh\s.*'
+	if(re.match(pattern,compareToThis) != None):
+		return "Bulk"
 	
-	
+	#playmat case
+	pattern = r'^Yugioh\s(.*\sPlaymat)'
+	#capture group would be name of mat + playmat
+	if(re.match(pattern,compareToThis) !=None):
+		return re.match(pattern,compareToThis).group(1)
