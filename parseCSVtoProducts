@@ -99,27 +99,12 @@ def parseProdName(compareToThis):
 	#general case
 	
 	#ABC-EN123 | ABCD-EN123
-	pattern = r'^(.+)\s-\s.{3,4}-EN\d{3}'
-	if(re.match(pattern,compareToThis) != None):
-		return re.match(pattern,compareToThis).group(1)
-	
-	#ABC-123
-	pattern = r'^(.+)\s-\s.{3}-\d{3}'
-	if(re.match(pattern,compareToThis) != None):
-		return re.match(pattern,compareToThis).group(1)
-		
-	#AB01-EN123
-	pattern = r'^(.+)\s-\s.{2}\d{2}-EN\d{3}'
-	if(re.match(pattern,compareToThis) != None):
-		return re.match(pattern,compareToThis).group(1)
-
-	#AB01 - ENX01
-	pattern = r'^(.+)\s-\s.{2}\d{2}-EN.{1}\d{2}'
+	pattern = r'^(.+)\s-\s.{0,4}\d{0,2}-.{0,2}\d{0,3}'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
 	
 	#ABCD - ENX01
-	pattern = r'^(.+)\s-\s.{3,4}-EN.{1,2}\d{1,2}'
+	pattern = r'^(.+)\s-\s.{0,4}\d{0,2}-EN.{1,2}\d{1,2}'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
 
@@ -127,13 +112,6 @@ def parseProdName(compareToThis):
 	pattern = r'^Ultimate\sRare\s-\s(.+)\s-\s(.{3,4}-EN\d{3})'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
-	
-	#ultimate Rare case 4 char set
-	#pattern = r'^Ultimate\sRare\s-\s(.+)\s-\s(.{4}-EN\d{3})'
-	#if(re.match(pattern,compareToThis) !=None):
-		#return re.match(pattern,compareToThis).group(1)
-	
-	
 	
 	#no dash inbetween setNum
 	pattern = r'^(.+)-\s.{4}\sEN\d{3}'
@@ -144,14 +122,7 @@ def parseProdName(compareToThis):
 	pattern = r'^(.+).{4}-EN\d{3}'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
-	
-	#AB1-A123
-	pattern = r'^(.+)\s-\s.{2}\d{1}-.{1}\d{3}'
-	if(re.match(pattern,compareToThis) != None):
-		return re.match(pattern,compareToThis).group(1)
-		
-	
-		
+
 	#bulk case
 	pattern = r'^Random\s.*Yugioh\s.*'
 	if(re.match(pattern,compareToThis) != None):
@@ -161,11 +132,7 @@ def parseProdName(compareToThis):
 	pattern = r'^(.+)\s-\s.{4}-.{2}\d{3}'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
-	#IOC SE case
-	pattern =r'^(.+)\s-\s.{3}-.{2}\d{1}'
-	if(re.match(pattern,compareToThis) != None):
-		return re.match(pattern,compareToThis).group(1)
-		
+	
 	#playmat case
 	pattern = r'^Yugioh\s(.*\sPlaymat)'
 	if(re.match(pattern,compareToThis) !=None):
@@ -179,11 +146,7 @@ def parseProdName(compareToThis):
 	pattern = r'^Marshmallon Misprint'
 	if(re.match(pattern,compareToThis) != None):
 		return compareToThis
-	#WCS-AE503
-	pattern = r'^(.+)\s-\sWCS-AE\d{3}'
-	if(re.match(pattern,compareToThis) != None):
-		return re.match(pattern,compareToThis).group(1)
-	
+
 	#Space dash between setName
 	pattern = r'^(.+)\s-\s.{4}\s-\sEN\d{3}'
 	if(re.match(pattern,compareToThis) != None):
