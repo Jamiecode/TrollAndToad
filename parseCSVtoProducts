@@ -91,18 +91,21 @@ def parsePackName(string)
 	#(1234) 4ints to rep a year i.e. 2009
 
 	
-#TODO:Make this shit smaller 
+#TODO:Make this shit smaller
 def parseProdName(compareToThis):
 
 	#I have to do the ultimate rare case first becasue it will otherwise get caught in the regular regex
 	
 	#general case
 	
-	#ABC-EN123 | ABCD-EN123
-	pattern = r'^(.+)\s-\s.{3|4}-EN\d{3}'
+	#ABC-EN123
+	pattern = r'^(.+)\s-\s.{3}-EN\d{3}'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
-	
+	#ABCD-EN123
+	pattern = r'^(.+)\s-\s.{4}-EN\d{3}'
+	if(re.match(pattern,compareToThis) != None):
+		return re.match(pattern,compareToThis).group(1)
 	#ABC-123
 	pattern = r'^(.+)\s-\s.{3}-\d{3}'
 	if(re.match(pattern,compareToThis) != None):
