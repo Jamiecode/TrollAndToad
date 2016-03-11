@@ -93,9 +93,18 @@ def parsePackName(string)
 	
 #TODO:Make this shit smaller 
 def parseProdName(compareToThis):
+
+	#I have to do the ultimate rare case first becasue it will otherwise get caught in the regular regex
+	
 	#general case
+	
 	#ABC-EN123 | ABCD-EN123
-	pattern = r'^(.+).{0,4}\d{0,2}.{0,4}\d{0,3}'
+	pattern = r'^(.+)\s-\s.{0,4}\d{0,2}-.{0,2}\d{0,3}'
+	if(re.match(pattern,compareToThis) != None):
+		return re.match(pattern,compareToThis).group(1)
+	
+	#ABCD - ENX01
+	pattern = r'^(.+)\s-\s.{0,4}\d{0,2}-EN.{1,2}\d{1,2}'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
 
@@ -104,10 +113,25 @@ def parseProdName(compareToThis):
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
 	
+	#no dash inbetween setNum
+	pattern = r'^(.+)-\s.{4}\sEN\d{3}'
+	if(re.match(pattern,compareToThis) != None):
+		return re.match(pattern,compareToThis).group(1)
+	
+	#no dash between name and Set
+	pattern = r'^(.+).{4}-EN\d{3}'
+	if(re.match(pattern,compareToThis) != None):
+		return re.match(pattern,compareToThis).group(1)
+
 	#bulk case
 	pattern = r'^Random\s.*Yugioh\s.*'
 	if(re.match(pattern,compareToThis) != None):
 		return "Bulk"
+	
+	#World Champ case
+	pattern = r'^(.+)\s-\s.{4}-.{2}\d{3}'
+	if(re.match(pattern,compareToThis) != None):
+		return re.match(pattern,compareToThis).group(1)
 	
 	#playmat case
 	pattern = r'^Yugioh\s(.*\sPlaymat)'
@@ -118,10 +142,24 @@ def parseProdName(compareToThis):
 	pattern = r'^.+Complete Set of Prize'
 	if(re.match(pattern,compareToThis) != None):
 		return compareToThis
-		
 	#marshmallon
 	pattern = r'^Marshmallon Misprint'
 	if(re.match(pattern,compareToThis) != None):
 		return compareToThis
+
+	#Space dash between setName
+	pattern = r'^(.+)\s-\s.{4}\s-\sEN\d{3}'
+	if(re.match(pattern,compareToThis) != None):
+		return re.match(pattern,compareToThis).group(1)
 	
+	#no space dash ABC-123
+	pattern = r'^(.+)\s.{3}-\d{3}'
+	if(re.match(pattern,compareToThis) != None):
+		return re.match(pattern,compareToThis).group(1)
+
+	#dash spaec ABCD-ENAB1
+	pattern = r'^(.+)-\s.{4}-EN.{2}\d{1}'
+	if(re.match(pattern,compareToThis) != None):
+		return re.match(pattern,compareToThis).group(1)
+		
 	return("Nothing Found")
