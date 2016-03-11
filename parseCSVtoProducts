@@ -94,12 +94,11 @@ def parsePackName(string)
 #TODO:Make this shit smaller 
 def parseProdName(compareToThis):
 	#general case
-	#ABC-EN123 | ABCD-EN123
 	pattern = r'^(.+).{0,4}\d{0,2}.{0,4}\d{0,3}'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
 
-	#ultimate Rare case 3char set
+	#ultimate Rare case
 	pattern = r'^Ultimate\sRare\s-\s(.+)\s-\s(.{3,4}-EN\d{3})'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
