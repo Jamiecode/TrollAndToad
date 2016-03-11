@@ -99,7 +99,7 @@ def parseProdName(compareToThis):
 	#general case
 	
 	#ABC-EN123 | ABCD-EN123
-	pattern = r'^(.+)\s-\s.{3,4}-EN\d{3}'
+	pattern = r'^(.+)\s-\s.{3|4}-EN\d{3}'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
 	
@@ -119,21 +119,25 @@ def parseProdName(compareToThis):
 		return re.match(pattern,compareToThis).group(1)
 	
 	#ABCD - ENX01
-	pattern = r'^(.+)\s-\s.{3,4}-EN.{1,2}\d{1,2}'
+	pattern = r'^(.+)\s-\s.{4}-EN.{2}\d{1}'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
-
+	
+	
 	#ultimate Rare case 3char set
-	pattern = r'^Ultimate\sRare\s-\s(.+)\s-\s(.{3,4}-EN\d{3})'
+	pattern = r'^Ultimate\sRare\s-\s(.+)\s-\s(.{3}-EN\d{3})'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
 	
 	#ultimate Rare case 4 char set
-	#pattern = r'^Ultimate\sRare\s-\s(.+)\s-\s(.{4}-EN\d{3})'
-	#if(re.match(pattern,compareToThis) !=None):
-		#return re.match(pattern,compareToThis).group(1)
+	pattern = r'^Ultimate\sRare\s-\s(.+)\s-\s(.{4}-EN\d{3})'
+	if(re.match(pattern,compareToThis) !=None):
+		return re.match(pattern,compareToThis).group(1)
 	
-	
+	#ABC-ENS01
+	pattern = r'^(.+)\s-\s.{3}-ENS\d{2}'
+	if(re.match(pattern,compareToThis) !=None):
+		return re.match(pattern,compareToThis).group(1)
 	
 	#no dash inbetween setNum
 	pattern = r'^(.+)-\s.{4}\sEN\d{3}'
@@ -150,7 +154,10 @@ def parseProdName(compareToThis):
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
 		
-	
+	#ABC-ENAB1
+	pattern = r'^(.+)\s-\s.{3}-EN.{2}\d{1}'
+	if(re.match(pattern,compareToThis) != None):
+		return re.match(pattern,compareToThis).group(1)
 		
 	#bulk case
 	pattern = r'^Random\s.*Yugioh\s.*'
