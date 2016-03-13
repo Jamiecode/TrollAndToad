@@ -210,3 +210,9 @@ def parseProdName(compareToThis):
 		return re.match(pattern,compareToThis).group(1)
 		
 	return("Nothing Found")
+
+#Make Unit Tests here
+#Tried to make parseProdName smaller but ended up making my regexes catch too mutch
+#didn't just return the name.
+#to handle this going to make unit tests
+#puttting this here as a remindiner to look @ unit tests and how to do them.
