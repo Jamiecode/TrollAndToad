@@ -216,3 +216,8 @@ def parseProdName(compareToThis):
 #didn't just return the name.
 #to handle this going to make unit tests
 #puttting this here as a remindiner to look @ unit tests and how to do them.
+
+import unittest
+class TestParseProdNameMethods(unittest.TestCase)
+	
+
