@@ -99,13 +99,15 @@ def parseProdName(compareToThis):
 	#general case
 	
 	#ABC-EN123
-	pattern = r'^(.+)\s-\s.{3}-EN\d{3}'
+	pattern = r'^(.+)\s-\s.{3,4}-EN\d{3}'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
+	
+	#Should be handled by the above case.  Leaving commented out for now
 	#ABCD-EN123
-	pattern = r'^(.+)\s-\s.{4}-EN\d{3}'
-	if(re.match(pattern,compareToThis) != None):
-		return re.match(pattern,compareToThis).group(1)
+	#pattern = r'^(.+)\s-\s.{4}-EN\d{3}'
+	#if(re.match(pattern,compareToThis) != None):
+	#	return re.match(pattern,compareToThis).group(1)
 	#ABC-123
 	pattern = r'^(.+)\s-\s.{3}-\d{3}'
 	if(re.match(pattern,compareToThis) != None):
@@ -127,15 +129,16 @@ def parseProdName(compareToThis):
 		return re.match(pattern,compareToThis).group(1)
 	
 	
-	#ultimate Rare case 3char set
-	pattern = r'^Ultimate\sRare\s-\s(.+)\s-\s(.{3}-EN\d{3})'
+	#ultimate Rare case 3 or 4char set
+	pattern = r'^Ultimate\sRare\s-\s(.+)\s-\s(.{3,4}-EN\d{3})'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
 	
+	#Should be handled by above case.  keeping incase
 	#ultimate Rare case 4 char set
-	pattern = r'^Ultimate\sRare\s-\s(.+)\s-\s(.{4}-EN\d{3})'
-	if(re.match(pattern,compareToThis) !=None):
-		return re.match(pattern,compareToThis).group(1)
+	#pattern = r'^Ultimate\sRare\s-\s(.+)\s-\s(.{4}-EN\d{3})'
+	#if(re.match(pattern,compareToThis) !=None):
+	#	return re.match(pattern,compareToThis).group(1)
 	
 	#ABC-ENS01
 	pattern = r'^(.+)\s-\s.{3}-ENS\d{2}'
@@ -189,6 +192,7 @@ def parseProdName(compareToThis):
 	pattern = r'^Marshmallon Misprint'
 	if(re.match(pattern,compareToThis) != None):
 		return compareToThis
+		
 	#WCS-AE503
 	pattern = r'^(.+)\s-\sWCS-AE\d{3}'
 	if(re.match(pattern,compareToThis) != None):
