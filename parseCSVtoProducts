@@ -124,10 +124,15 @@ def parseProdName(compareToThis):
 		return re.match(pattern,compareToThis).group(1)
 	
 	#ABCD - ENX01
-	pattern = r'^(.+)\s-\s.{4}-EN.{2}\d{1}'
+	pattern = r'^(.+)\s-\s.{3,4}-EN.{1}\d{2}'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
 	
+	#should be handled by the above case leaving commented out for now
+	#ABC-ENS01
+	#pattern = r'^(.+)\s-\s.{3}-ENS\d{2}'
+	#if(re.match(pattern,compareToThis) !=None):
+	#	return re.match(pattern,compareToThis).group(1)
 	
 	#ultimate Rare case 3 or 4char set
 	pattern = r'^Ultimate\sRare\s-\s(.+)\s-\s(.{3,4}-EN\d{3})'
@@ -141,9 +146,9 @@ def parseProdName(compareToThis):
 	#	return re.match(pattern,compareToThis).group(1)
 	
 	#ABC-ENS01
-	pattern = r'^(.+)\s-\s.{3}-ENS\d{2}'
-	if(re.match(pattern,compareToThis) !=None):
-		return re.match(pattern,compareToThis).group(1)
+	#pattern = r'^(.+)\s-\s.{3}-ENS\d{2}'
+	#if(re.match(pattern,compareToThis) !=None):
+	#	return re.match(pattern,compareToThis).group(1)
 	
 	#no dash inbetween setNum
 	pattern = r'^(.+)-\s.{4}\sEN\d{3}'
