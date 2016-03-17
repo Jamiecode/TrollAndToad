@@ -96,80 +96,30 @@ def parseProdName(compareToThis):
 
 	#I have to do the ultimate rare case first becasue it will otherwise get caught in the regular regex
 	
-	#general case
-	
-	#ABC-EN123
-	pattern = r'^(.+)\s-\s.{3,4}-EN\d{3}'
-	if(re.match(pattern,compareToThis) != None):
-		return re.match(pattern,compareToThis).group(1)
-	
-	#Should be handled by the above case.  Leaving commented out for now
-	#ABCD-EN123
-	#pattern = r'^(.+)\s-\s.{4}-EN\d{3}'
-	#if(re.match(pattern,compareToThis) != None):
-	#	return re.match(pattern,compareToThis).group(1)
-	#ABC-123
-	pattern = r'^(.+)\s-\s.{3}-\d{3}'
-	if(re.match(pattern,compareToThis) != None):
-		return re.match(pattern,compareToThis).group(1)
-		
-	#AB01-EN123
-	pattern = r'^(.+)\s-\s.{2}\d{2}-EN\d{3}'
-	if(re.match(pattern,compareToThis) != None):
-		return re.match(pattern,compareToThis).group(1)
-
-	#AB01 - ENX01
-	pattern = r'^(.+)\s-\s.{2}\d{2}-EN.{1}\d{2}'
-	if(re.match(pattern,compareToThis) != None):
-		return re.match(pattern,compareToThis).group(1)
-	
-	#ABCD - ENX01
-	pattern = r'^(.+)\s-\s.{3,4}-EN.{1}\d{2}'
-	if(re.match(pattern,compareToThis) != None):
-		return re.match(pattern,compareToThis).group(1)
-	
-	#should be handled by the above case leaving commented out for now
-	#ABC-ENS01
-	#pattern = r'^(.+)\s-\s.{3}-ENS\d{2}'
-	#if(re.match(pattern,compareToThis) !=None):
-	#	return re.match(pattern,compareToThis).group(1)
-	
 	#ultimate Rare case 3 or 4char set
 	pattern = r'^Ultimate\sRare\s-\s(.+)\s-\s(.{3,4}-EN\d{3})'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
 	
-	#Should be handled by above case.  keeping incase
-	#ultimate Rare case 4 char set
-	#pattern = r'^Ultimate\sRare\s-\s(.+)\s-\s(.{4}-EN\d{3})'
-	#if(re.match(pattern,compareToThis) !=None):
-	#	return re.match(pattern,compareToThis).group(1)
-	
-	#ABC-ENS01
-	#pattern = r'^(.+)\s-\s.{3}-ENS\d{2}'
-	#if(re.match(pattern,compareToThis) !=None):
-	#	return re.match(pattern,compareToThis).group(1)
-	
+	#general case
+	#ABC(D)-(EN)123
+	#AB01-(EN)123
+
+	pattern = r'^(.+)\s-\s[A-Za-z]{2,4}\d{0,2}.{0,1}[A-Za-z]{0,3}\d{2,3}'
+	if(re.match(pattern,compareToThis) != None):
+		return re.match(pattern,compareToThis).group(1)
+
+	#KEEP THIS ONE DONT TOUCH
 	#no dash inbetween setNum
 	pattern = r'^(.+)-\s.{4}\sEN\d{3}'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
 	
 	#no dash between name and Set
-	pattern = r'^(.+).{4}-EN\d{3}'
-	if(re.match(pattern,compareToThis) != None):
-		return re.match(pattern,compareToThis).group(1)
+#	pattern = r'^(.+).{4}-EN\d{3}'
+#	if(re.match(pattern,compareToThis) != None):
+#		return re.match(pattern,compareToThis).group(1)
 	
-	#AB1-A123
-	pattern = r'^(.+)\s-\s.{2}\d{1}-.{1}\d{3}'
-	if(re.match(pattern,compareToThis) != None):
-		return re.match(pattern,compareToThis).group(1)
-		
-	#ABC-ENAB1
-	pattern = r'^(.+)\s-\s.{3}-EN.{2}\d{1}'
-	if(re.match(pattern,compareToThis) != None):
-		return re.match(pattern,compareToThis).group(1)
-		
 	#bulk case
 	pattern = r'^Random\s.*Yugioh\s.*'
 	if(re.match(pattern,compareToThis) != None):
@@ -213,7 +163,7 @@ def parseProdName(compareToThis):
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
 
-	#dash spaec ABCD-ENAB1
+	#dash space ABCD-ENAB1
 	pattern = r'^(.+)-\s.{4}-EN.{2}\d{1}'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
@@ -227,6 +177,56 @@ def parseProdName(compareToThis):
 #puttting this here as a remindiner to look @ unit tests and how to do them.
 
 import unittest
-class TestParseProdNameMethods(unittest.TestCase)
+class TestParseProdNameMethods(unittest.TestCase):	
 	
+	def test_Ultimate_Rare3Char(self):
+		testCase = 'Ultimate Rare - Ultimate Insect LV1 - SOD-EN005'
+		testCaseStripped = 'Ultimate Insect LV1'
+		self.assertEqual(testCaseStripped,parseProdName(testCase))
+	
+	def test_Ultimate_Rare4Char(self):
+		testCase = 'Ultimate Rare - Black Rose Dragon - CSOC-EN039'
+		testCaseStripped = 'Black Rose Dragon'
+		self.assertEqual(testCaseStripped,parseProdName(testCase))
 
+	def test_Generic3Char(self):
+		testCase = 'Machine Duplication - RDS-EN041 - Rare'
+		testCaseStripped = 'Machine Duplication'
+		self.assertEqual(testCaseStripped,parseProdName(testCase))
+	
+	def test_Generic4Char(self):
+		testCase = 'Machine Lord Ur - CSOC-EN093 - Secret Rare'
+		testCaseStripped = 'Machine Lord Ur'
+		self.assertEqual(testCaseStripped,parseProdName(testCase))
+	
+	def test_ABCdash123(self):
+		testCase = 'Beast Fangs - LOB-041 - Common'
+		testCaseStripped = 'Beast Fangs'
+		self.assertEqual(testCaseStripped,parseProdName(testCase))
+		
+	def test_AB01dashEN123(self):
+		testCase = 'Big Shield Gardna - CP01-EN006 - Rare'
+		testCaseStripped = 'Big Shield Gardna'
+		self.assertEqual(testCaseStripped,parseProdName(testCase))
+	
+	def test_AB01dashENS12(self):
+		testCase = 'Earthbound Immortal Chacu Challhua - CT06-ENS03 - Secret Rare'
+		testCaseStripped = 'Earthbound Immortal Chacu Challhua'
+		self.assertEqual(testCaseStripped,parseProdName(testCase))
+		
+	#Elemental Hero Flame Wingman - DR3-EN215 - Ultra Rare
+	def test_ABCdashENAB1(self):
+		testCase = 'Elemental Hero Flame Wingman - DR3-EN215 - Ultra Rare'
+		testCaseStripped = 'Elemental Hero Flame Wingman'
+		self.assertEqual(testCaseStripped,parseProdName(testCase))
+		
+	#Valkyrion the Magna Warrior - WC4-E001 - Secret Rare"
+	def test_AB1dashA123(self):
+		testCase = 'Valkyrion the Magna Warrior - WC4-E001 - Secret Rare'
+		testCaseStripped = 'Valkyrion the Magna Warrior'
+		self.assertEqual(testCaseStripped,parseProdName(testCase))
+	#Shooting Star Dragon- STBL EN040 - Oversized Promo
+	def test_no_dash_in_setNumber(self):
+		testCase = 'Shooting Star Dragon- STBL EN040 - Oversized Promo'
+		testCaseStripped = 'Shooting Star Dragon'
+		self.assertEqual(testCaseStripped,parseProdName(testCase))
