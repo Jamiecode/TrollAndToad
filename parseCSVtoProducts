@@ -94,31 +94,6 @@ def parsePackName(string)
 #TODO:Make this shit smaller
 def parseProdName(compareToThis):
 	
-	#Cases that snuck through
-	#Evil HERO Infernal Prodigy - LCGX-EN031
-	#Exodia The Forbidden One Secret Rare Set Left/Right Arms/Legs & Head UBP1
-	#Elemental Hero Shining Flare Wingman DR04
-	#Elemental HERO Steam Healer - LCGX-EN051
-	#Check these LCGX cases
-	#Dark Magician - DPYG-EN001
-	#Black Luster Soldier - DPYG-EN017
-	#Yubel - The Ultimate Nightmare - RYMP-EN072
-	#Yubel - RYMP-EN070
-	#White Night Dragon - BP01-EN016
-	#Check These BP01 Cases
-	#Toon Cyber Dragon - CORE-EN043
-	#Tidal, Dragon Ruler of Waterfalls - LTGY-EN039
-	#Tanngnjostr of the Nordic Beasts - STOR-EN013
-	#Synchro Fusionist - DREV-EN035
-	#T.G. Striker - EXVC-EN017 
-	#Superheavy Samurai Big Benkei - DUEA-EN013
-	#Super Soldier Ritual - DOCS-EN056
-	#Slacker Magician - CBLZ-EN053
-	#Shaddoll Beast - DUEA-EN027
-	#Shaddoll Beast - MP15-EN082
-	
-	
-	
 	#I have to do the ultimate rare case first becasue it will otherwise get caught in the regular regex
 	#ultimate Rare case 3 or 4char set
 	pattern = r'^Ultimate\sRare\s-\s(.+)\s-\s(.{3,4}-EN\d{3})'
@@ -127,7 +102,7 @@ def parseProdName(compareToThis):
 		
 	#LEAVE THIS CASE BEFORE GENERIC CASE
 	#Space dash between setName
-	pattern = r'^(.+)\s-\s[A-Za-z]{2,4}\s-\s\d{0,2}.{0,1}[A-Za-z]{0,4}\d{1,3}'
+	pattern = r'^(.+)\s-\s[A-Z]{2,4}\s-\s\d{0,2}.{0,1}[A-Z]{0,4}\d{1,3}'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
 		
@@ -135,11 +110,12 @@ def parseProdName(compareToThis):
 	#ABC(D)-(EN)123
 	#AB01-(EN)123
 	
-	pattern = r'^(.+)\s-\s[A-Za-z]{2,4}\d{0,2}.{0,1}[A-Za-z]{0,4}\d{1,3}'
+	#Removed non cap letters in setName
+	pattern = r'^(.+)\s-\s[A-Z]{2,4}\d{0,2}.{0,1}[A-Za-z]{0,4}\d{1,3}'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
 
-	#KEEP THIS ONE DONT TOUCH
+	
 	#no dash inbetween setNum
 	pattern = r'^(.+)-\s.{4}\sEN\d{3}'
 	if(re.match(pattern,compareToThis) != None):
@@ -171,7 +147,7 @@ def parseProdName(compareToThis):
 		return compareToThis
 
 	#no space dash before set num
-	pattern = r'^(.+).{1}[A-Za-z]{2,4}\d{0,2}.{0,1}[A-Za-z]{0,4}\d{1,3}'
+	pattern = r'^(.+)\s[A-Z]{0,4}\d{0,2}-[A-Z]{0,4}\d{1,3}'
 	if(re.match(pattern,compareToThis) != None):
 		return re.match(pattern,compareToThis).group(1)
 
