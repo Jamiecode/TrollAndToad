@@ -76,8 +76,10 @@ def parseYGOList(rowFromReader):
 	#condition
 	buyPrice = rowFromReader[4]
 	buyQuantity = rowFromReader[5]
+	return (Product(productId,packName,cardName,rarity,edition,condition,buyPrice,butQuantity))
 	
 #TODO:Work on the various cases, maybe have to check vs certain sets, remember bulk case, playmat case
+#I think I should just take parseProdName and change the RE to group the set num
 def parsePackName(string)
 	#work on cleaning up the packName
 	#potential cases to clean
