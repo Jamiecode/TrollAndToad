@@ -69,7 +69,7 @@ with open('YugiohSinglesBuylist (2).csv',newline="") as f:
 #TODO:finish writing the methods to clean
 def parseYGOList(rowFromReader):
 	productId = rowFromReader[0]
-	#packName goes here
+	packName = parsePackName(rowFromReader[2])
 	cardName = parseProdName(rowFromReader[2])
 	#rarity goes here !!If ultimate rare, check rowFromReader[2] for ultimate rare, i.e. "rare" card but "ultimate rare" version
 	#edition here
@@ -78,24 +78,66 @@ def parseYGOList(rowFromReader):
 	buyQuantity = rowFromReader[5]
 	return (Product(productId,packName,cardName,rarity,edition,condition,buyPrice,butQuantity))
 	
-#TODO:Work on the various cases, maybe have to check vs certain sets, remember bulk case, playmat case
-#I think I should just take parseProdName and change the RE to group the set num
-def parsePackName(string)
-	#work on cleaning up the packName
-	#potential cases to clean
-	#"1st Edition Singles"
-	
-	#"Unlimited Singles
-	#AB01 where there's two char followed by two int like RP01
-	#AB1 two char followed by 1 int like DR1
-	#ABC1 3 char followed by 1 int like GLD1
-	#(ABCD) string of 4 chars inside parens 
-	#(1234) 4ints to rep a year i.e. 2009
-	
-	#generic case
-	pattern = r'^.+\s-\s([A-Z]{2,4}\d{0,2}.{0,1}[A-Za-z]{0,4}\d{1,3})'
-	
 
+def parsePackName(compareToThis):
+
+	#I have to do the ultimate rare case first becasue it will otherwise get caught in the regular regex
+	#ultimate Rare case 3 or 4char set
+	pattern = r'^Ultimate\sRare\s-\s.+\s-\s(.{3,4}-EN\d{3})'
+	if(re.match(pattern,compareToThis) != None):
+		return re.match(pattern,compareToThis).group(1)
+		
+	#LEAVE THIS CASE BEFORE GENERIC CASE
+	#Space dash between setName
+	pattern = r'^.+\s-\s([A-Z]{2,4}\s-\s\d{0,2}.{0,1}[A-Z]{0,4}\d{1,3})'
+	if(re.match(pattern,compareToThis) != None):
+		return re.match(pattern,compareToThis).group(1)
+		
+	#general case
+	#ABC(D)-(EN)123
+	#AB01-(EN)123
+	
+	#Removed non cap letters in setName
+	pattern = r'^.+\s-\s([A-Z]{2,4}\d{0,2}.{0,1}[A-Za-z]{0,4}\d{1,3})'
+	if(re.match(pattern,compareToThis) != None):
+		return re.match(pattern,compareToThis).group(1)
+	
+	#no dash inbetween setNum
+	pattern = r'^.+-\s(.{4}\sEN\d{3})'
+	if(re.match(pattern,compareToThis) != None):
+		return re.match(pattern,compareToThis).group(1)
+	
+	#bulk case
+	pattern = r'^Random\s.*Yugioh\s.*'
+	if(re.match(pattern,compareToThis) != None):
+		return "Bulk"
+	
+	#World Champ case 2
+	pattern = r'^.+\s-\s(.{4}-.{2}\d{3})'
+	if(re.match(pattern,compareToThis) != None):
+		return re.match(pattern,compareToThis).group(1)
+	
+	#playmat case
+	pattern = r'^Yugioh\s(.*\sPlaymat)'
+	if(re.match(pattern,compareToThis) !=None):
+		return "Playmat"
+	
+	#complete set 
+	pattern = r'^.+Complete Set of Prize'
+	if(re.match(pattern,compareToThis) != None):
+		return "Complete Set"
+		
+	#marshmallon
+	pattern = r'^Marshmallon Misprint'
+	if(re.match(pattern,compareToThis) != None):
+		return "Misprint"
+
+	#no space dash before set num
+	pattern = r'^.+\s([A-Z]{0,4}\d{0,2}-[A-Z]{0,4}\d{1,3})'
+	if(re.match(pattern,compareToThis) != None):
+		return re.match(pattern,compareToThis).group(1)
+
+	return("Nothing Found")
 	
 #TODO:Make this shit smaller
 def parseProdName(compareToThis):
