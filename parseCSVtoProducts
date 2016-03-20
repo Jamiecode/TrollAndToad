@@ -91,6 +91,10 @@ def parsePackName(string)
 	#ABC1 3 char followed by 1 int like GLD1
 	#(ABCD) string of 4 chars inside parens 
 	#(1234) 4ints to rep a year i.e. 2009
+	
+	#generic case
+	pattern = r'^.+\s-\s([A-Z]{2,4}\d{0,2}.{0,1}[A-Za-z]{0,4}\d{1,3})'
+	
 
 	
 #TODO:Make this shit smaller
